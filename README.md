@@ -1,6 +1,6 @@
-## 长乐未央 API
+## PPH API
 
-此项目为长乐未央公司开发的，专供学习`Node.js`的同学使用。项目使用了 Node.js + Express + MySQL + Sequelize ORM 开发。
+专供学习`Node.js`的同学使用。项目使用了 Node.js + Express + MySQL + Sequelize ORM 开发。
 
 项目课程地址：https://clwy.cn/courses/fullstack-node
 

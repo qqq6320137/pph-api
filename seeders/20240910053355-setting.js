@@ -4,9 +4,9 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Settings', [{
-      name: '长乐未央',
+      name: 'pph',
       icp: '鄂ICP备13016268号-11',
-      copyright: 'Copyright © 2024-2025 长乐未央',
+      copyright: 'Copyright © 2024-2025 pph',
       createdAt: new Date(),
       updatedAt: new Date()
     }], {});
