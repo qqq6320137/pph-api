@@ -1,35 +1,38 @@
+// 使用http-error后这个自定义错误类可以删除了
+
+
 /**
  * 自定义 400 错误类
  */
-class BadRequestError extends Error {
+class BadRequest extends Error {
   constructor(message) {
     super(message);
-    this.name = 'BadRequestError';
+    this.name = 'BadRequest';
   }
 }
 
 /**
  * 自定义 401 错误类
  */
-class UnauthorizedError extends Error {
+class Unauthorized extends Error {
   constructor(message) {
     super(message);
-    this.name = 'UnauthorizedError';
+    this.name = 'Unauthorized';
   }
 }
 
 /**
  * 自定义 404 错误类
  */
-class NotFoundError extends Error {
+class NotFound extends Error {
   constructor(message) {
     super(message);
-    this.name = 'NotFoundError';
+    this.name = 'NotFound';
   }
 }
 
 module.exports = {
-  BadRequestError,
-  UnauthorizedError,
-  NotFoundError
+  BadRequest,
+  Unauthorized,
+  NotFound
 }

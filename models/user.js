@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
        // 这里要用 belongsToMany ，来实现多对多关联，并且用 through ，也就是说要通过 Likes 中间表来实现关联。
       // 中间还加了个 foreignKey ，它是用来指明中间表里关联用的外键叫什么
       models.User.belongsToMany(models.Course, { through: models.Like, foreignKey: 'userId', as: 'likeCourses' });
+      models.User.hasMany(models.Attachment, { as: 'attachments' });
     }
   }
   User.init(

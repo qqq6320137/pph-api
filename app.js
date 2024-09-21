@@ -3,9 +3,9 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require('cors');
+require("dotenv").config();
 const adminAuth = require("./middlewares/admin-auth");
 const userAuth = require("./middlewares/user-auth");
-require("dotenv").config();
 
 const app = express();
 
@@ -29,16 +29,20 @@ const settingsRouter = require('./routes/settings');
 const searchRouter = require('./routes/search');
 const authRouter = require('./routes/auth');
 
+const uploadsRouter = require('./routes/uploads');
 // 后台接口路由配置
 const adminArticlesRouter = require("./routes/admin/articles");
 const adminCategoriesRouter = require("./routes/admin/category");
 const adminSettingsRouter = require("./routes/admin/settings");
 const adminUsersRouter = require("./routes/admin/users");
 const adminCoursesRouter = require("./routes/admin/courses");
+const adminChaptersRouter = require("./routes/admin/chapters");
 const adminChartsRouter = require("./routes/admin/charts");
 const adminAuthRouter = require("./routes/admin/auth");
 const articlesRouter = require('./routes/articles');
 const likesRouter = require('./routes/likes');
+const adminAttachmentsRouter = require('./routes/admin/attachments');
+
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -72,14 +76,17 @@ app.use('/search', searchRouter);
 app.use('/auth', authRouter);
 app.use('/likes', userAuth, likesRouter);
 
+app.use('/uploads', userAuth, uploadsRouter);
 // 后台路由配置
 app.use("/admin/articles", adminAuth, adminArticlesRouter);
 app.use("/admin/categories", adminAuth, adminCategoriesRouter);
 app.use("/admin/settings", adminAuth, adminSettingsRouter);
 app.use("/admin/users", adminAuth, adminUsersRouter);
 app.use("/admin/courses", adminAuth, adminCoursesRouter);
+app.use("/admin/chapters", adminAuth, adminChaptersRouter);
 app.use("/admin/charts", adminAuth, adminChartsRouter);
 app.use("/admin/auth", adminAuthRouter);
-app.use("/admin/auth", adminAuthRouter);
+app.use('/admin/attachments', adminAuth, adminAttachmentsRouter);
+
 
 module.exports = app;

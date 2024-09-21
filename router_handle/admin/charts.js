@@ -1,5 +1,5 @@
 const { sequelize, User } = require("../../models");
-const { NotFoundError } = require('../../utils/errors');
+const { NotFound } = require('http-errors');
 const { success, failure } = require('../../utils/responses');
 
 exports.findAndCountSex = async (req, res) => {

@@ -16,17 +16,16 @@ router.get('/', async function (req, res) {
     const offset = (currentPage - 1) * pageSize;
 
     const condition = {
+      where: {},
       attributes: { exclude: ['CategoryId', 'UserId', 'content'] },
       order: [['id', 'DESC']],
       limit: pageSize,
       offset: offset
     };
-
+    
     if (query.name) {
-      condition.where = {
-        name: {
-          [Op.like]: `%${ query.name }%`
-        }
+      condition.where.name = {
+        [Op.like]: `%${query.name}%`
       };
     }
 

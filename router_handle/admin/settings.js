@@ -1,5 +1,5 @@
 const { Setting } = require("../../models");
-const { NotFoundError } = require('../../utils/errors');
+const { NotFound } = require('http-errors');
 const { success, failure } = require('../../utils/responses');
 
 
@@ -35,7 +35,7 @@ async function getSetting(req) {
   // 查询当前系统设置
 //   const setting = await Setting.findByPk(id);
   if (!setting) {
-    throw new notFoundError(`ID:${id}的系统设置未找到。`);
+    throw new NotFound(`ID:${id}的系统设置未找到。`);
   }
   return setting;
 }

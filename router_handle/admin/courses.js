@@ -1,8 +1,7 @@
 const { Course, Category, User, Chapter } = require("../../models");
 const { Op, where } = require("sequelize");
-const { NotFoundError } = require('../../utils/errors');
 const { success, failure } = require('../../utils/responses');
-
+const { NotFound, Conflict } = require('http-errors')
 // 查询所有
 exports.coursesAll = async (req, res) => {
   try {
@@ -13,50 +12,32 @@ exports.coursesAll = async (req, res) => {
 
     const condition = {
       ...getCondition(),
-      // 倒序
-      order: [["id", "DESC"]],
+      where: {},
+      order: [['id', 'DESC']],
       limit: pageSize,
-      offset,
+      offset: offset
     };
+    
     if (query.categoryId) {
-      condition.where = {
-        categoryId: {
-          [Op.eq]: query.categoryId,
-        },
-      };
+      condition.where.categoryId = query.categoryId;
     }
-
+    
     if (query.userId) {
-      condition.where = {
-        userId: {
-          [Op.eq]: query.userId,
-        },
-      };
+      condition.where.userId = query.userId;
     }
-
+    
     if (query.name) {
-      condition.where = {
-        name: {
-          [Op.like]: `%${query.name}%`,
-        },
+      condition.where.name = {
+        [Op.like]: `%${ query.name }%`
       };
     }
-
+    
     if (query.recommended) {
-      condition.where = {
-        recommended: {
-          // 需要转布尔值
-          [Op.eq]: query.recommended === "true",
-        },
-      };
+      condition.where.recommended = query.recommended === 'true';
     }
-
+    
     if (query.introductory) {
-      condition.where = {
-        introductory: {
-          [Op.eq]: query.introductory === "true",
-        },
-      };
+      condition.where.introductory = query.introductory === 'true';
     }
     const { count, rows } = await Course.findAndCountAll(condition);
     success(res, "查询课程列表成功。", {
@@ -104,15 +85,13 @@ exports.coursesAdd = async (req, res) => {
 
 // 删除课程
 exports.coursesDelete = async (req, res) => {
-  console.log('进来了')
   try {
     const course = await getCourse(req);
 
     const count = await Chapter.count({where: { courseId: req.params.id } })
-    console.log('打印',count)
+    console.log(count);
     if(count > 0){
-      console.log('进来了')
-      throw new Error('该课程下有章节，无法删除');
+      throw new Conflict('该课程下有章节，无法删除');
     }
 
     await course.destroy();
@@ -144,7 +123,7 @@ async function getCourse(req) {
 
   const course = await Course.findByPk(id, condition);
   if (!course) {
-    throw new NotFoundError(`ID: ${id}的课程未找到。`);
+    throw new NotFound(`ID: ${id}的课程未找到。`);
   }
 
   return course;
